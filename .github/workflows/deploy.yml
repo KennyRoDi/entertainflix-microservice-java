@@ -17,16 +17,12 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
     
-    - name: Build with Maven
-      run: mvn clean package -DskipTests
-    
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-    - name: Deploy to Azure App Service
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: microservice-java
-        package: ./target/microservice-java-1.0.0.jar
+    - name: Build and Deploy with Maven
+      env:
+        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        AZURE_RESOURCE_GROUP: EntertainFlix
+        AZURE_APP_SERVICE_NAME: microservice-java
+      run: |
+        mvn clean package azure-webapp:deploy \
+          -Dazure.appServiceName=microservice-java \
+          -Dazure.resourceGroup=EntertainFlix
