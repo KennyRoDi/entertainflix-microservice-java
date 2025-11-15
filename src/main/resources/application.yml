@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: microservice-java
+  datasource:
+    url: jdbc:postgresql://entertainflixhistory.postgres.database.azure.com:5432/postgres
+    username: krd005
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+azure:
+  storage:
+    queue:
+      connection-string: ${AZURE_STORAGE_QUEUE_CONNECTION_STRING}
+      queue-name: decision-events
+  ad:
+    tenant-id: ${AZURE_AD_TENANT_ID:}
+    client-id: ${AZURE_AD_CLIENT_ID:}
+
+security:
+  oauth2:
+    enabled: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: WARN
+    com.example.microservice: INFO
+    org.flywaydb: INFO
