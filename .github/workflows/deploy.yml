@@ -20,9 +20,13 @@ jobs:
     - name: Build with Maven
       run: mvn clean package -DskipTests
     
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
     - name: Deploy to Azure App Service
       uses: azure/webapps-deploy@v2
       with:
         app-name: microservice-java
-        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
         package: ./target/microservice-java-1.0.0.jar
