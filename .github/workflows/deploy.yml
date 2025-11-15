@@ -29,6 +29,11 @@ jobs:
         docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }} ${{ secrets.REGISTRY_LOGIN_SERVER }}
         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/microservice-java:latest
     
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
     - name: Deploy to Azure App Service
       uses: azure/webapps-deploy@v2
       with:
