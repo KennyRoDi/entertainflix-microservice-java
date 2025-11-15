@@ -18,7 +18,10 @@ jobs:
         distribution: 'temurin'
     
     - name: Build JAR with Maven
-      run: mvn clean package -DskipTests
+      run: mvn clean package -DskipTests -q
+    
+    - name: Verify JAR exists
+      run: ls -lh target/microservice-java-1.0.0.jar
     
     - name: Build and push Docker image
       run: |
