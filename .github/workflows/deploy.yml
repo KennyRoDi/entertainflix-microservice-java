@@ -37,5 +37,5 @@ jobs:
     - name: Deploy to Azure App Service
       uses: azure/webapps-deploy@v2
       with:
-        app-name: microservice-java
+        app-name: microservice-java-app
         images: ${{ secrets.REGISTRY_LOGIN_SERVER }}/microservice-java:latest
