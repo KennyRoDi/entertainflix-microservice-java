@@ -1,0 +1,28 @@
+name: Deploy to Azure App Service
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+    
+    - name: Build with Maven
+      run: mvn clean package -DskipTests
+    
+    - name: Deploy to Azure App Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: microservice-java
+        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+        package: ./target/microservice-java-1.0.0.jar
