@@ -15,7 +15,7 @@ public class MicroserviceJavaApplication {
 
         // Explicitly load .env.local
         Dotenv dotenv = Dotenv.configure()
-                .filename(".env.local")
+                .ignoreIfMissing()
                 .load();
 
         // Expose the environment variables so Spring Boot sees them
