@@ -12,28 +12,29 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 public class MicroserviceJavaApplication {
 
     public static void main(String[] args) {
+        try {
+            Dotenv dotenv = Dotenv.configure()
+                    .ignoreIfMissing()
+                    .load();
 
-        // Explicitly load .env.local
-        Dotenv dotenv = Dotenv.configure()
-                .ignoreIfMissing()
-                .load();
-
-        // Expose the environment variables so Spring Boot sees them
-        System.setProperty("SPRING_PROFILES_ACTIVE", dotenv.get("SPRING_PROFILES_ACTIVE"));
-        System.setProperty("SPRING_DATASOURCE_URL", dotenv.get("SPRING_DATASOURCE_URL"));
-        System.setProperty("SPRING_DATASOURCE_USERNAME", dotenv.get("SPRING_DATASOURCE_USERNAME"));
-        System.setProperty("SPRING_DATASOURCE_PASSWORD", dotenv.get("SPRING_DATASOURCE_PASSWORD"));
-
-        // Optional: Azure storage configs
-        if (dotenv.get("AZURE_STORAGE_QUEUE_CONNECTION_STRING") != null) {
-            System.setProperty("AZURE_STORAGE_QUEUE_CONNECTION_STRING",
-                    dotenv.get("AZURE_STORAGE_QUEUE_CONNECTION_STRING"));
-        }
-        if (dotenv.get("AZURE_STORAGE_QUEUE_NAME") != null) {
-            System.setProperty("AZURE_STORAGE_QUEUE_NAME",
-                    dotenv.get("AZURE_STORAGE_QUEUE_NAME"));
+            // Only set if value exists
+            setPropertyIfExists(dotenv, "SPRING_PROFILES_ACTIVE");
+            setPropertyIfExists(dotenv, "SPRING_DATASOURCE_URL");
+            setPropertyIfExists(dotenv, "SPRING_DATASOURCE_USERNAME");
+            setPropertyIfExists(dotenv, "SPRING_DATASOURCE_PASSWORD");
+            setPropertyIfExists(dotenv, "AZURE_STORAGE_QUEUE_CONNECTION_STRING");
+            setPropertyIfExists(dotenv, "AZURE_STORAGE_QUEUE_NAME");
+        } catch (Exception e) {
+            // Silently ignore if .env doesn't exist (cloud environment)
         }
 
         SpringApplication.run(MicroserviceJavaApplication.class, args);
+    }
+
+    private static void setPropertyIfExists(Dotenv dotenv, String key) {
+        String value = dotenv.get(key);
+        if (value != null && !value.isEmpty()) {
+            System.setProperty(key, value);
+        }
     }
 }
