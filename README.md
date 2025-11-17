@@ -16,7 +16,7 @@ La arquitectura de este microservicio está diseñada para ser escalable, eficie
 - **Java 11 o superior**: Para el desarrollo del microservicio.  
 - **Framework Spring Boot**: Para simplificar la configuración y el desarrollo de nuevos endpoints REST.  
 - **Base de datos**: PostgreSQL para la persistencia de datos.  
-- **Sistema de Mensajería**: RabbitMQ para la comunicación entre microservicios.  
+- **Sistema de Mensajería**: AzureQueue para la comunicación entre microservicios.  
 
 ## Flujos de Datos  
 El flujo de datos dentro del microservicio se inicia cuando un usuario realiza una solicitud a través de la capa de presentación. La solicitud es enviada a la capa de negocio, donde se procesa la información. Luego, se utilizan los métodos de acceso a datos para interactuar con la base de datos cuando es necesario. Los resultados se devuelven a la capa de presentación y, si corresponde, se envían notificaciones a otros microservicios a través de la capa de integración. Este flujo asegura que los datos se manejen de manera fluida y eficiente, garantizando una experiencia de usuario óptima.
