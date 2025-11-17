@@ -1,40 +1,22 @@
-# Documentación de Arquitectura de entertainflix-microservice-java
+# Arquitectura del Microservicio  
+La arquitectura de este microservicio está diseñada para ser escalable, eficiente y de fácil mantenimiento. Se compone de varias capas que interactúan entre sí para cumplir con los requerimientos del sistema.
 
-## Diseño del Sistema
-Este microservicio está diseñado para ofrecer funcionalidades específicas de una forma escalable y robusta. Se basa en una arquitectura de microservicios que permite la independencia de componentes y el escalado individual de servicios.
+## Capas de la Arquitectura  
+1. **Capa de Presentación**: Esta capa es responsable de gestionar las interacciones con los usuarios y presentar la información de manera amigable. Utiliza API REST para la comunicación con otras capas.
+2. **Capa de Negocio**: Aquí se encuentran las reglas y la lógica del negocio. Esta capa procesa los datos recibidos, realiza las operaciones necesarias y se comunica con la capa de persistencia para almacenar o recuperar información.
+3. **Capa de Persistencia**: Esta capa se encarga de la interacción con la base de datos. Utiliza métodos de acceso a datos para guardar y recuperar información de manera eficiente.
+4. **Capa de Integración**: Facilita la comunicación entre diferentes microservicios y sistemas externos, utilizando protocolos como HTTP, AMQP, entre otros.
 
-## Descripción de Diagramas de Flujo
-A continuación se describen los diagramas de flujo que ilustran los principales procesos del sistema:
+## Componentes del Sistema  
+- **Servicios REST**: Permiten la comunicación entre el cliente y el servidor mediante solicitudes HTTP.  
+- **Base de Datos**: Almacena la información del sistema y permite consultas eficientes.  
+- **Mensajería**: Se usa para la comunicación asíncrona entre microservicios, permitiendo que los servicios interactúen de manera más flexible y desacoplada.  
 
-1. **Diagrama de flujo de solicitud de usuario**: Representa cómo un usuario envía una solicitud y cómo se gestiona internamente.
-2. **Diagrama de flujo del manejo de errores**: Muestra cómo el sistema responde ante distintos tipos de errores y excepciones.
+## Requisitos  
+- **Java 11 o superior**: Para el desarrollo del microservicio.  
+- **Framework Spring Boot**: Para simplificar la configuración y el desarrollo de nuevos endpoints REST.  
+- **Base de datos**: PostgreSQL para la persistencia de datos.  
+- **Sistema de Mensajería**: RabbitMQ para la comunicación entre microservicios.  
 
-## Detalles de Implementación Técnica
-- **Lenguaje de Programación**: Java
-- **Framework**: Spring Boot
-- **Gestión de Dependencias**: Maven
-- **Base de Datos**: PostgreSQL
-
-### Componentes Clave:
-- **Controladores**: Manejan las solicitudes HTTP y coordinan el flujo de datos entre los servicios.
-- **Servicios**: Contienen la lógica de negocio y manipulan los modelos de datos.
-- **Repositorios**: Interactúan con la base de datos y gestionan la persistencia de datos.
-
-### Ejemplo de Implementación
-Para implementar el controlador de gestión de usuarios, se define una clase como sigue:
-```java
-@RestController
-@RequestMapping("/usuarios")
-public class UsuarioController {
-    @Autowired
-    private UsuarioService usuarioService;
-
-    @GetMapping
-    public List<Usuario> obtenerUsuarios() {
-        return usuarioService.listarUsuarios();
-    }
-}
-```
-
-## Conclusión
-Esta documentación está destinada a ofrecer una comprensión profunda del sistema y facilitar la implementación y mantenimiento del microservicio.
+## Flujos de Datos  
+El flujo de datos dentro del microservicio se inicia cuando un usuario realiza una solicitud a través de la capa de presentación. La solicitud es enviada a la capa de negocio, donde se procesa la información. Luego, se utilizan los métodos de acceso a datos para interactuar con la base de datos cuando es necesario. Los resultados se devuelven a la capa de presentación y, si corresponde, se envían notificaciones a otros microservicios a través de la capa de integración. Este flujo asegura que los datos se manejen de manera fluida y eficiente, garantizando una experiencia de usuario óptima.
