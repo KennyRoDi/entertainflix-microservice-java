@@ -1,59 +1,40 @@
-# Proyecto de Microservicios en Java
+# Documentación de Arquitectura de entertainflix-microservice-java
 
-Este proyecto se basa en la arquitectura de microservicios y se ha desarrollado utilizando Java. Este enfoque permite descomponer una aplicación en partes más pequeñas y manejables, cada una de las cuales puede ser desplegada y escalada de manera independiente.
+## Diseño del Sistema
+Este microservicio está diseñado para ofrecer funcionalidades específicas de una forma escalable y robusta. Se basa en una arquitectura de microservicios que permite la independencia de componentes y el escalado individual de servicios.
 
-## Características Principales
+## Descripción de Diagramas de Flujo
+A continuación se describen los diagramas de flujo que ilustran los principales procesos del sistema:
 
-- **Desarrollo en Java**: Basado en el lenguaje de programación Java, asegurando robustez y facilidad de mantenimiento.
-- **Basado en Microservicios**: Cada servicio es independiente y se comunica a través de APIs, lo que mejora la escalabilidad y la flexibilidad.
-- **API RESTful**: Los microservicios exponen sus funcionalidades a través de servicios RESTful, lo que permite la integración con otras plataformas.
-- **Persistencia de Datos**: Integración con bases de datos para una gestión eficaz de los datos.
-- **Despliegue en la Nube**: Posibilidad de despliegue en plataformas de nube, lo que mejora la disponibilidad y la capacidad de escalabilidad.
+1. **Diagrama de flujo de solicitud de usuario**: Representa cómo un usuario envía una solicitud y cómo se gestiona internamente.
+2. **Diagrama de flujo del manejo de errores**: Muestra cómo el sistema responde ante distintos tipos de errores y excepciones.
 
-## Requisitos Previos
+## Detalles de Implementación Técnica
+- **Lenguaje de Programación**: Java
+- **Framework**: Spring Boot
+- **Gestión de Dependencias**: Maven
+- **Base de Datos**: PostgreSQL
 
-Para ejecutar este proyecto, asegúrate de tener instalado:
-- Java 11 o superior
-- Maven 3.6 o superior
-- Docker (opcional, para despliegue en contenedores) 
+### Componentes Clave:
+- **Controladores**: Manejan las solicitudes HTTP y coordinan el flujo de datos entre los servicios.
+- **Servicios**: Contienen la lógica de negocio y manipulan los modelos de datos.
+- **Repositorios**: Interactúan con la base de datos y gestionan la persistencia de datos.
 
-## Instalación
+### Ejemplo de Implementación
+Para implementar el controlador de gestión de usuarios, se define una clase como sigue:
+```java
+@RestController
+@RequestMapping("/usuarios")
+public class UsuarioController {
+    @Autowired
+    private UsuarioService usuarioService;
 
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/KennyRoDi/entertainflix-microservice-java.git
-   ```
-2. Navega al directorio del proyecto:
-   ```bash
-   cd entertainflix-microservice-java
-   ```
-3. Ejecuta el siguiente comando para compilar el proyecto:
-   ```bash
-   mvn clean install
-   ```
-4. Ejecuta la aplicación:
-   ```bash
-   mvn spring-boot:run
-   ```
+    @GetMapping
+    public List<Usuario> obtenerUsuarios() {
+        return usuarioService.listarUsuarios();
+    }
+}
+```
 
-## Contribución
-
-Las contribuciones son bienvenidas. Por favor, sigue este formato:
-1. Haz un fork del repositorio.
-2. Crea una nueva rama para tu característica:
-   ```bash
-   git checkout -b feature/mi-nueva-caracteristica
-   ```
-3. Realiza tus cambios y confirma:
-   ```bash
-   git commit -m "Añadida mi nueva característica"
-   ```
-4. Envía tus cambios:
-   ```bash
-   git push origin feature/mi-nueva-caracteristica
-   ```
-5. Abre un pull request.
-
-## Licencia
-
-Este proyecto está bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
+## Conclusión
+Esta documentación está destinada a ofrecer una comprensión profunda del sistema y facilitar la implementación y mantenimiento del microservicio.
